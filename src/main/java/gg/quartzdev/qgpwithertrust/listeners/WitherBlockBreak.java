@@ -29,7 +29,7 @@ public class WitherBlockBreak implements Listener {
     @EventHandler
     public void onWitherFiresSkull(ProjectileLaunchEvent event){
         Projectile witherSkull = event.getEntity();
-        if(witherSkull.getShooter() == null && !(witherSkull.getShooter() instanceof Wither)) return;
+        if(witherSkull.getShooter() == null || !(witherSkull.getShooter() instanceof Wither)) return;
         Wither wither = (Wither) witherSkull.getShooter();
         String creatorId = WitherUtil.getCreatorID(wither);
         if(creatorId == null) return;
