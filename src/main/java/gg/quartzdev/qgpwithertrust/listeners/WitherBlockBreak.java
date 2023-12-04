@@ -37,8 +37,11 @@ public class WitherBlockBreak implements Listener {
     }
     @EventHandler (priority = EventPriority.LOWEST)
     public void onWitherSkullExplode(EntityExplodeEvent event){
-        if(!(event.getEntity() instanceof WitherSkull)) return;
+        if((event.getEntity() instanceof WitherSkull) || event.getEntity() instanceof Wither)
+                handleWitherExplosions(event);
+    }
 
+    public void handleWitherExplosions(EntityExplodeEvent event){
         String creatorId = WitherUtil.getCreatorID(event.getEntity());
         if(creatorId == null) return;
         List<Block> blocks = event.blockList();
@@ -52,21 +55,29 @@ public class WitherBlockBreak implements Listener {
                 if(!claim.getOwnerID().toString().equals(creatorId)){
                     cachedClaim = claim;
                     ClaimPermission claimPermission = cachedClaim.getPermission(creatorId);
-//                    and you aren't trusted
-                    if(claimPermission == null)
-//                        then don't let the wither break the block
-                        continue;
-            }
+//                   if you're not trusted with build or higher
+                    if(claimPermission == null) continue;
+                    if(claimPermission.equals(ClaimPermission.Access)) continue;
+                    if(claimPermission.equals(ClaimPermission.Inventory)) continue;
+                }
 
-//            RNG to check if item should drop
-//            Not every block destroyed by with will drop, this uses the same odds
-            ThreadLocalRandom random = ThreadLocalRandom.current();
-            float rng = random.nextFloat(0.01F, 100.0F);
-
-            if(rng > event.getYield() || !(block.getState() instanceof InventoryHolder)) {
-                block.setType(Material.AIR);
-            } else
-                block.breakNaturally();
+            breakBlock(block, event.getYield());
         }
+    }
+
+    public void breakBlock(Block block, float yield){
+
+//        RNG
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        float rng = random.nextFloat(0.01F, 100.0F);
+
+//        rng check
+//        - QOL: will always drop any blocks that have an inventory, like a chest
+        if(rng > yield && !(block.getState() instanceof InventoryHolder))
+//            sets to air, doesn't drop the block
+            block.setType(Material.AIR);
+        else
+//            breaks and drops the block
+            block.breakNaturally();
     }
 }
