@@ -17,16 +17,7 @@ import java.util.logging.Logger;
 
 public class WitherSpawnListener implements Listener {
 
-    Logger logger;
-
-    qGPWitherTrust plugin;
-
     final double PLAYER_REACH = 4.5;
-
-    public WitherSpawnListener(){
-        this.logger = Bukkit.getServer().getLogger();
-        this.plugin = qGPWitherTrust.getInstance();
-    }
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event){

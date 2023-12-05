@@ -19,12 +19,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class WitherBlockBreak implements Listener {
 
-    qGPWitherTrust plugin;
-
-    public WitherBlockBreak(){
-        this.plugin = qGPWitherTrust.getInstance();
-    }
-
 //    Detects when a wither fires a skull and brands the skull with the creator
     @EventHandler
     public void onWitherFiresSkull(ProjectileLaunchEvent event){
@@ -35,7 +29,7 @@ public class WitherBlockBreak implements Listener {
         if(creatorId == null) return;
         WitherUtil.brandEntity(witherSkull, creatorId);
     }
-    @EventHandler (priority = EventPriority.LOWEST)
+    @EventHandler
     public void onWitherSkullExplode(EntityExplodeEvent event){
         if((event.getEntity() instanceof WitherSkull) || event.getEntity() instanceof Wither)
                 handleWitherExplosions(event);
