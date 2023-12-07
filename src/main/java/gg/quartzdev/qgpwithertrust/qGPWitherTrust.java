@@ -1,6 +1,7 @@
 package gg.quartzdev.qgpwithertrust;
 
 import gg.quartzdev.qgpwithertrust.listeners.WitherBlockBreak;
+import gg.quartzdev.qgpwithertrust.listeners.WitherHurtEntity;
 import gg.quartzdev.qgpwithertrust.listeners.WitherSpawnListener;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,6 +22,7 @@ public final class qGPWitherTrust extends JavaPlugin {
         Metrics metrics = new Metrics(this, pluginId);
 
         this.getServer().getPluginManager().registerEvents(new WitherSpawnListener(), this);
+        this.getServer().getPluginManager().registerEvents(new WitherHurtEntity(), this);
         this.getServer().getPluginManager().registerEvents(new WitherBlockBreak(), this);
     }
 

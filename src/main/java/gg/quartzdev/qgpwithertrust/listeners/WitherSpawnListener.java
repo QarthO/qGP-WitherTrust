@@ -1,8 +1,6 @@
 package gg.quartzdev.qgpwithertrust.listeners;
 
-import gg.quartzdev.qgpwithertrust.qGPWitherTrust;
 import gg.quartzdev.qgpwithertrust.util.WitherUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -12,7 +10,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.logging.Logger;
 
 
 public class WitherSpawnListener implements Listener {
@@ -33,7 +30,7 @@ public class WitherSpawnListener implements Listener {
         if(witherCreator == null) return;
 
 //        puts nbt data on wither saying who spawned it, uses PDC
-        WitherUtil.brandEntity(wither, witherCreator.getUniqueId().toString());
+        WitherUtil.brandEntity(wither, witherCreator);
 
     }
 

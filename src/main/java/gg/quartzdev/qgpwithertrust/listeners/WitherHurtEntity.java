@@ -4,22 +4,21 @@ import gg.quartzdev.qgpwithertrust.util.WitherUtil;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.ClaimPermission;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Wither;
-import org.bukkit.entity.WitherSkull;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class WitherHurtEntity implements Listener {
 
 
-    @EventHandler ()
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onWitherHurtEntity(EntityDamageByEntityEvent event){
 
         if(!(event.getDamager() instanceof Wither) && !(event.getDamager() instanceof WitherSkull)) return;
 
-        String creatorId = WitherUtil.getCreatorID(event.getEntity());
+        String creatorId = WitherUtil.getCreatorID(event.getDamager());
         if(creatorId == null) return;
 
         Claim cachedClaim = null;
@@ -36,7 +35,11 @@ public class WitherHurtEntity implements Listener {
             if(claimPermission.equals(ClaimPermission.Inventory)) return;
         }
 
-        event.setCancelled(true);
+        if((event.getEntity() instanceof LivingEntity mob))
+            mob.damage(event.getFinalDamage());
+
+        event.setCancelled(false);
+
     }
 
 }

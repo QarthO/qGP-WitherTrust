@@ -1,6 +1,5 @@
 package gg.quartzdev.qgpwithertrust.listeners;
 
-import gg.quartzdev.qgpwithertrust.qGPWitherTrust;
 import gg.quartzdev.qgpwithertrust.util.WitherUtil;
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.ClaimPermission;
@@ -29,7 +28,7 @@ public class WitherBlockBreak implements Listener {
         if(creatorId == null) return;
         WitherUtil.brandEntity(witherSkull, creatorId);
     }
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onWitherSkullExplode(EntityExplodeEvent event){
         if((event.getEntity() instanceof WitherSkull) || event.getEntity() instanceof Wither)
                 handleWitherExplosions(event);
@@ -44,8 +43,7 @@ public class WitherBlockBreak implements Listener {
         for(Block block : blocks){
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(block.getLocation(), false, cachedClaim);
 //            If you're in a claim
-            if(claim != null)
-//               and the claim isn't yours
+            if(claim != null){
                 if(!claim.getOwnerID().toString().equals(creatorId)){
                     cachedClaim = claim;
                     ClaimPermission claimPermission = cachedClaim.getPermission(creatorId);
@@ -54,6 +52,11 @@ public class WitherBlockBreak implements Listener {
                     if(claimPermission.equals(ClaimPermission.Access)) continue;
                     if(claimPermission.equals(ClaimPermission.Inventory)) continue;
                 }
+
+            }
+//               and the claim isn't yours
+
+
 
             breakBlock(block, event.getYield());
         }
