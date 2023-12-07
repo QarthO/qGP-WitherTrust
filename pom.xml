@@ -6,7 +6,7 @@
 
     <groupId>gg.quartzdev</groupId>
     <artifactId>qGP-WitherTrust</artifactId>
-    <version>1.0-ALPHA</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>qGP-WitherTrust</name>
